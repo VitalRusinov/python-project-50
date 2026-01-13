@@ -1,8 +1,6 @@
-"""
-gendiff - утилита для сравнения конфигурационных файлов.
-"""
+"""Gendiff package - compares two configuration files and shows a difference."""
 
-from gendiff.scripts.gendiff import main
+from gendiff.generate_diff import generate_diff
 
-# Экспортируем функцию main на уровне пакета
-__all__ = ['main']
+__all__ = ['generate_diff']
+__version__ = '0.1.0'

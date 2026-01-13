@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "hexlet-code"
 version = "0.1.0"
@@ -8,11 +12,7 @@ requires-python = "<4.0,>=3.12"
 dependencies = []
 
 [project.scripts]
-gendiff = "gendiff.scripts.gendiff:main"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+gendiff = "gendiff.__main__:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["gendiff"]
