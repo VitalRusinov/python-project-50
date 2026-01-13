@@ -1,11 +1,11 @@
 """Main facade function for generating differences."""
 
-from gendiff.parser import get_data
 from gendiff.diff_builder import build_diff
 from gendiff.formatters import get_formatter
+from gendiff.parser import get_data
 
 
-def generate_diff(file_path1, file_path2, format_name='stylish'):
+def generate_diff(file_path1, file_path2, format_name="stylish"):
     """
     Generate difference between two files.
 

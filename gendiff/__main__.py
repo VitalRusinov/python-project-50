@@ -2,8 +2,9 @@
 """CLI entry point for gendiff."""
 
 import sys
-from gendiff.cli import parse_args
+
 from gendiff import generate_diff
+from gendiff.cli import parse_args
 
 
 def main():
@@ -22,5 +23,5 @@ def main():
         sys.exit(2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -1,0 +1,47 @@
+# .github/workflows/python-ci.yml
+name: Python CI
+
+on:
+  - push          # Запуск при любом push в репозиторий
+  - pull_request  # Запуск при создании/обновлении Pull Request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Запуск на последнем Ubuntu
+    steps:
+      # 1. Получаем код из репозитория
+      - uses: actions/checkout@v6
+
+      # 2. Устанавливаем нужную версию Python
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      # 3. Устанавливаем зависимости проекта
+      - name: Install dependencies
+        run: |
+          pip install uv  # Устанавливаем uv
+          make install    # Используем нашу команду из Makefile
+
+      # 4. Запускаем линтер и тесты (команда make check)
+      - name: Run linter and pytest
+        run: |
+          make check
+
+      # 5. Запускаем расчет покрытия кода тестами (нужно для SonarCloud)
+      - name: Run test coverage
+        run: |
+          make test-coverage
+
+      # 6. Запускаем анализ в SonarCloud (аналог SonarQube)
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Секретный ключ
+        with:
+          # Ключ проекта в SonarCloud. ОБЯЗАТЕЛЬНО ИЗМЕНИТЕ!
+          args: >
+            -Dsonar.projectKey=VitalRusinov_python-project-50
+            -Dsonar.organization=vitalrusinov
+            -Dsonar.python.coverage.reportPaths=coverage.xml

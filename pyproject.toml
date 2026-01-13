@@ -14,5 +14,34 @@ dependencies = []
 [project.scripts]
 gendiff = "gendiff.__main__:main"
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["gendiff"]
+
+# Конфигурация Ruff (линтер и форматтер)
+[tool.ruff]
+line-length = 80
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "C90", # mccabe complexity
+]
+preview = true
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Неиспользуемый импорт в __init__ файлах
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
