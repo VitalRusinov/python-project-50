@@ -1,54 +1,67 @@
 import os
 
-from gendiff.generate_diff import generate_diff
+from gendiff import generate_diff
 
 
-# Получаем путь к фикстурам
 def get_fixture_path(filename):
+    """Get path to fixture file."""
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(current_dir, "..", "fixtures", filename)
+    return os.path.join(current_dir, "fixtures", filename)
 
 
-def test_generate_diff_json():
-    """
-    Проверяем, что generate_diff правильно сравнивает file1.json и file2.json
-    и возвращает результат, который совпадает с result.txt
-    """
-    # Получаем пути к файлам
-    file1_path = get_fixture_path("file1.json")
-    file2_path = get_fixture_path("file2.json")
-    result_path = get_fixture_path("result.txt")
+def read_fixture(filename):
+    """Read fixture file."""
+    with open(get_fixture_path(filename), "r", encoding="utf-8") as f:
+        return f.read()
 
-    # Запускаем функцию сравнения
-    actual_result = generate_diff(file1_path, file2_path)
 
-    # Читаем ожидаемый результат
-    with open(result_path, "r", encoding="utf-8") as f:
-        expected_result = f.read()
+def test_generate_diff_flat_json():
+    """Test flat JSON comparison."""
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+    result = read_fixture("result.txt")
 
-    # Сравниваем
-    assert actual_result == expected_result, (
-        "Результат не совпадает с ожидаемым"
-    )
+    actual = generate_diff(file1, file2)
+    assert actual == result
 
-def test_generate_diff_yml():
-    """
-    Проверяем, что generate_diff правильно сравнивает file1.json и file2.json
-    и возвращает результат, который совпадает с result.txt
-    """
-    # Получаем пути к файлам
-    file1_path = get_fixture_path("file1.yml")
-    file2_path = get_fixture_path("file2.yaml")
-    result_path = get_fixture_path("result.txt")
 
-    # Запускаем функцию сравнения
-    actual_result = generate_diff(file1_path, file2_path)
+def test_generate_diff_flat_yaml():
+    """Test flat YAML comparison."""
+    file1 = get_fixture_path("file1.yml")
+    file2 = get_fixture_path("file2.yaml")
+    result = read_fixture("result.txt")
 
-    # Читаем ожидаемый результат
-    with open(result_path, "r", encoding="utf-8") as f:
-        expected_result = f.read()
+    actual = generate_diff(file1, file2)
+    assert actual == result
 
-    # Сравниваем
-    assert actual_result == expected_result, (
-        "Результат не совпадает с ожидаемым"
-    )
+
+def test_generate_diff_recursive_json():
+    """Test recursive JSON comparison."""
+    file1 = get_fixture_path("file_recursive1.json")
+    file2 = get_fixture_path("file_recursive2.json")
+    result = read_fixture("result_recursive.txt")
+
+    actual = generate_diff(file1, file2)
+    assert actual == result
+
+
+def test_generate_diff_recursive_yaml():
+    """Test recursive YAML comparison."""
+    # Создайте YAML версии рекурсивных файлов
+    file1 = get_fixture_path("file_recursive1.yml")
+    file2 = get_fixture_path("file_recursive2.yaml")
+    result = read_fixture("result_recursive.txt")
+
+    actual = generate_diff(file1, file2)
+    assert actual == result
+
+
+def test_default_format():
+    """Test that default format is stylish."""
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+
+    result_without_format = generate_diff(file1, file2)
+    result_with_format = generate_diff(file1, file2, "stylish")
+
+    assert result_without_format == result_with_format
