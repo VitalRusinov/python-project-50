@@ -47,7 +47,6 @@ def test_generate_diff_recursive_json():
 
 def test_generate_diff_recursive_yaml():
     """Test recursive YAML comparison."""
-    # Создайте YAML версии рекурсивных файлов
     file1 = get_fixture_path("file_recursive1.yml")
     file2 = get_fixture_path("file_recursive2.yaml")
     result = read_fixture("result_recursive.txt")
@@ -65,3 +64,27 @@ def test_default_format():
     result_with_format = generate_diff(file1, file2, "stylish")
 
     assert result_without_format == result_with_format
+
+
+def test_generate_diff_plain_format():
+    """Test plain format output."""
+    file1 = get_fixture_path("file_recursive1.json")
+    file2 = get_fixture_path("file_recursive2.json")
+    
+    # Создайте файл с ожидаемым результатом для plain формата
+    expected_plain = read_fixture("result_plain.txt")
+    
+    actual = generate_diff(file1, file2, "plain")
+    assert actual == expected_plain
+
+
+def test_generate_diff_plain_format_flat():
+    """Test plain format for flat files."""
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+    
+    # Создайте файл с ожидаемым результатом для плоских файлов
+    expected_plain_flat = read_fixture("result_plain_flat.txt")
+    
+    actual = generate_diff(file1, file2, "plain")
+    assert actual == expected_plain_flat
