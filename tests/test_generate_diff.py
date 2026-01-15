@@ -1,3 +1,4 @@
+import json
 import os
 
 from gendiff import generate_diff
@@ -71,10 +72,9 @@ def test_generate_diff_plain_format():
     file1 = get_fixture_path("file_recursive1.json")
     file2 = get_fixture_path("file_recursive2.json")
 
-    # Создайте файл с ожидаемым результатом для plain формата
     expected_plain = read_fixture("result_plain.txt")
-
     actual = generate_diff(file1, file2, "plain")
+
     assert actual == expected_plain
 
 
@@ -83,8 +83,47 @@ def test_generate_diff_plain_format_flat():
     file1 = get_fixture_path("file1.json")
     file2 = get_fixture_path("file2.json")
 
-    # Создайте файл с ожидаемым результатом для плоских файлов
     expected_plain_flat = read_fixture("result_plain_flat.txt")
-
     actual = generate_diff(file1, file2, "plain")
+
     assert actual == expected_plain_flat
+
+
+def test_generate_diff_json_format():
+    """Test JSON format output."""
+    file1 = get_fixture_path("file_recursive1.json")
+    file2 = get_fixture_path("file_recursive2.json")
+
+    # Получаем результат
+    actual_json = generate_diff(file1, file2, "json")
+
+    # Читаем ожидаемый результат из файла
+    expected_json = read_fixture("result_json.txt")
+
+    # Для точного сравнения
+    assert actual_json == expected_json
+
+    # Дополнительная проверка, что это валидный JSON
+    parsed_actual = json.loads(actual_json)
+    parsed_expected = json.loads(expected_json)
+    assert parsed_actual == parsed_expected
+
+
+def test_generate_diff_json_format_flat():
+    """Test JSON format for flat files."""
+    file1 = get_fixture_path("file1.json")
+    file2 = get_fixture_path("file2.json")
+
+    # Получаем результат
+    actual_json = generate_diff(file1, file2, "json")
+
+    # Читаем ожидаемый результат из файла
+    expected_json = read_fixture("result_json_flat.txt")
+
+    # Для точного сравнения
+    assert actual_json == expected_json
+
+    # Дополнительная проверка, что это валидный JSON
+    parsed_actual = json.loads(actual_json)
+    parsed_expected = json.loads(expected_json)
+    assert parsed_actual == parsed_expected
