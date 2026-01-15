@@ -46,7 +46,6 @@ def format_node(node: DiffNode, path: str = "") -> List[str]:
     result = []
 
     if node.status == "nested":
-
         for child in node.children:
             result.extend(format_node(child, current_path))
 
