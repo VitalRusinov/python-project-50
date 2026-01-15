@@ -46,7 +46,7 @@ def format_node(node: DiffNode, path: str = "") -> List[str]:
     result = []
 
     if node.status == "nested":
-        # Рекурсивно обрабатываем вложенные узлы
+
         for child in node.children:
             result.extend(format_node(child, current_path))
 
@@ -66,8 +66,6 @@ def format_node(node: DiffNode, path: str = "") -> List[str]:
             f"Property '{current_path}' was updated. "
             f"From {old_formatted} to {new_formatted}"
         )
-
-    # 'unchanged' статус игнорируем в plain формате
 
     return result
 

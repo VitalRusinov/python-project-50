@@ -3,6 +3,9 @@
 install:
 	uv sync --all-extras
 
+link:
+	uv tool install --from ./gendiff gendiff
+
 run:
 	uv run gendiff
 

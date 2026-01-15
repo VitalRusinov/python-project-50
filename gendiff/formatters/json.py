@@ -44,8 +44,7 @@ def format_json(diff_tree: List[DiffNode]) -> str:
     Returns:
         str: JSON formatted diff
     """
-    # Convert diff tree to list of dictionaries
+
     result_list = [convert_node_to_dict(node) for node in diff_tree]
 
-    # Convert to JSON with pretty formatting (indent=2)
     return json.dumps(result_list, indent=2)
