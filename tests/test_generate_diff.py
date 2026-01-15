@@ -70,10 +70,10 @@ def test_generate_diff_plain_format():
     """Test plain format output."""
     file1 = get_fixture_path("file_recursive1.json")
     file2 = get_fixture_path("file_recursive2.json")
-    
+
     # Создайте файл с ожидаемым результатом для plain формата
     expected_plain = read_fixture("result_plain.txt")
-    
+
     actual = generate_diff(file1, file2, "plain")
     assert actual == expected_plain
 
@@ -82,9 +82,9 @@ def test_generate_diff_plain_format_flat():
     """Test plain format for flat files."""
     file1 = get_fixture_path("file1.json")
     file2 = get_fixture_path("file2.json")
-    
+
     # Создайте файл с ожидаемым результатом для плоских файлов
     expected_plain_flat = read_fixture("result_plain_flat.txt")
-    
+
     actual = generate_diff(file1, file2, "plain")
     assert actual == expected_plain_flat
