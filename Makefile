@@ -13,7 +13,7 @@ test:
 	uv run pytest -v
 
 test-coverage:
-	uv run pytest --cov=gendiff --cov-report xml --cov-report term-missing
+	uv run pytest --cov=. --cov-report=xml --cov-report=term-missing
 
 # Линтинг (проверка без исправлений)
 lint:

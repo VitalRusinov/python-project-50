@@ -45,3 +45,12 @@ ignore = []
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+# Конфигурация PYTEST
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-v"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"

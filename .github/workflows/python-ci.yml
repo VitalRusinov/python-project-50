@@ -1,47 +1,49 @@
-# .github/workflows/python-ci.yml
 name: Python CI
 
 on:
-  - push          # Запуск при любом push в репозиторий
-  - pull_request  # Запуск при создании/обновлении Pull Request
+  - push
+  - pull_request
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Запуск на последнем Ubuntu
+    runs-on: ubuntu-latest
     steps:
       # 1. Получаем код из репозитория
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Важно для SonarCloud анализа
 
-      # 2. Устанавливаем нужную версию Python
+      # 2. Устанавливаем Python
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      # 3. Устанавливаем зависимости проекта
+      # 3. Устанавливаем зависимости
       - name: Install dependencies
         run: |
-          pip install uv  # Устанавливаем uv
-          make install    # Используем нашу команду из Makefile
+          pip install uv
+          make install
 
-      # 4. Запускаем линтер и тесты (команда make check)
+      # 4. Запускаем линтер и тесты
       - name: Run linter and pytest
         run: |
           make check
 
-      # 5. Запускаем расчет покрытия кода тестами (нужно для SonarCloud)
+      # 5. Генерируем отчет о покрытии
       - name: Run test coverage
         run: |
           make test-coverage
 
-      # 6. Запускаем анализ в SonarCloud (аналог SonarQube)
+      # 6. Запускаем анализ в SonarCloud
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2.2.0
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Секретный ключ
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          # Ключ проекта в SonarCloud. ОБЯЗАТЕЛЬНО ИЗМЕНИТЕ!
           args: >
             -Dsonar.projectKey=VitalRusinov_python-project-50
             -Dsonar.organization=vitalrusinov
             -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.coverage.exclusions=tests/**
+            -Dsonar.exclusions=tests/**
