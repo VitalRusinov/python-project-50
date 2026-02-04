@@ -1,8 +1,9 @@
 """Formatters module for different output formats."""
 
-from gendiff.formatters.json import format_json
-from gendiff.formatters.plain import format_plain
-from gendiff.formatters.stylish import format_stylish
+from .diff_builder import DiffNode, build_diff
+from .json import format_json
+from .plain import format_plain
+from .stylish import format_stylish
 
 
 def get_formatter(format_name: str):
@@ -13,3 +14,13 @@ def get_formatter(format_name: str):
         "json": format_json,
     }
     return formatters.get(format_name)
+
+
+__all__ = [
+    "build_diff",
+    "DiffNode",
+    "get_formatter",
+    "format_json",
+    "format_plain",
+    "format_stylish",
+]

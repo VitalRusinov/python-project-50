@@ -2,7 +2,7 @@
 
 from typing import Any, List
 
-from gendiff.diff_builder import DiffNode
+from gendiff.formatters.diff_builder import DiffNode
 
 
 def format_value(value: Any) -> str:

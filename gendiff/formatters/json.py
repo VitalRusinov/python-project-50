@@ -3,7 +3,7 @@
 import json
 from typing import Any, Dict, List
 
-from gendiff.diff_builder import DiffNode
+from gendiff.formatters.diff_builder import DiffNode
 
 
 def convert_node_to_dict(node: DiffNode) -> Dict[str, Any]:
